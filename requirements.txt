@@ -1,0 +1,10 @@
+# web
+mangum
+quart
+
+# database
+aiomysql
+pymongo
+
+# dotenv
+python-dotenv

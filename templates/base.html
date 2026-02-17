@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>遊戲廳-{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="/static/css/{% block css %}{% endblock %}">
+        <script src="/static/js/script.js"></script>
+        <script src="/static/js/{% block js %}{% endblock %}"></script>
+        <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
+        {% block head %}{% endblock %}
+    </head>
+
+    <body>
+        <nav>
+            <img src="/static/img/logo.png" alt="arcade 遊戲廳" height="75px">
+            <ul>
+                <li>
+                    <a href="/game/blackjack">
+                        <img src="/static/img/nav/blackjack.svg" class="game-icon">
+                        <div class="game-info">
+                            <span class="game-text">BLACKJACK 21點</span>
+                            <span class="tables">0桌正在遊玩</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+
+</html>

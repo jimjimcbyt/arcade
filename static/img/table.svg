@@ -1,0 +1,33 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <radialGradient id="tableGrad" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" style="stop-color:#1e5d2c" />
+            <stop offset="100%" style="stop-color:#0a2312" />
+        </radialGradient>
+    </defs>
+
+    <path d="M 150,50 
+             L 650,50 
+             A 150,150 0 0 1 800,200 
+             Q 800,450 400,450 
+             Q 0,450 0,200 
+             A 150,150 0 0 1 150,50 
+             Z" 
+          fill="url(#tableGrad)" 
+          stroke="#111" stroke-width="10" />
+
+    <path d="M 100,180 Q 400,400 700,180" 
+          fill="none" 
+          stroke="rgba(255,255,255,0.1)" 
+          stroke-width="3" />
+
+    <text x="400" y="280" fill="rgba(255,255,255,0.15)" font-family="Arial" font-weight="bold" font-size="24" text-anchor="middle">
+        BLACKJACK PAYS 3 TO 2
+    </text>
+
+    <rect x="325" y="45" width="150" height="15" rx="5" fill="#000" />
+
+    <circle cx="200" cy="350" r="30" fill="none" stroke="rgba(255,215,0,0.3)" stroke-width="2" stroke-dasharray="4" />
+    <circle cx="400" cy="380" r="30" fill="none" stroke="rgba(255,215,0,0.3)" stroke-width="2" stroke-dasharray="4" />
+    <circle cx="600" cy="350" r="30" fill="none" stroke="rgba(255,215,0,0.3)" stroke-width="2" stroke-dasharray="4" />
+</svg>

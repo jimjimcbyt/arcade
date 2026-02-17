@@ -1,0 +1,38 @@
+name: Python CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  check-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run Lint
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+          flake8 . --count --extend-ignore=F401 --show-source --statistics
+
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: root 
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/jim/arcade
+            git pull origin main
+            /home/jim/arcade/venv/bin/python -m pip install -r requirements.txt
+            
+            pkill -f "python app.py" || true
+            sleep 2
+            
+            nohup /home/jim/arcade/venv/bin/python app.py > /home/jim/arcade/server.log 2>&1 &

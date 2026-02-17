@@ -1,0 +1,89 @@
+body {
+    background: rgb(50, 50, 50);
+    min-height: 100vh; /* 確保背景至少涵蓋整個視窗高度 */
+    color: white;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+a {
+    color: rgb(255, 255, 255);
+    text-decoration: none; /* 移除預設的下劃線 */
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    height: 70px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(10, 10, 10);
+    margin: 0;
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+    z-index: 1000; /* 確保導覽列在最上層，不會被按鈕蓋住 */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding-right: 5px;
+}
+
+nav li {
+    display: flex;
+    height: 68px;
+    align-items: center;
+}
+
+nav li a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+}
+
+.game-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px; /* 圖片與文字的間距 */
+}
+
+.game-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 50px;
+}
+
+.game-text {
+    color: rgb(200, 200, 200);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+}
+
+.tables {
+    color: rgb(200, 200, 200);
+    font-size: 15px;
+    display: flex;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+.content {
+    margin-top: 70px;
+}

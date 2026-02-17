@@ -1,0 +1,127 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Arcade - Blackjack</title>
+        <style>
+            /* 這裡簡單寫，保證能看到東西 */
+            #game-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 80vh;
+                color: white;
+            }
+            .card-area {
+                border: 2px dashed #555;
+                width: 300px;
+                height: 150px;
+                margin: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .controls {
+                margin-top: 30px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 18px;
+                cursor: pointer;
+            }
+            button:disabled {
+                background: #999;
+                color: #ccc;
+                cursor: not-allowed;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="game-container">
+            <h2>莊家的牌</h2>
+            <div id="dealer-cards" class="card-area">等待開局...</div>
+
+            <h2>你的牌</h2>
+            <div id="player-cards" class="card-area">等待開局...</div>
+
+            <div class="controls">
+                <button onclick="startGame()">開始遊戲</button>
+                <button id="btn-hit" onclick="hit()" disabled>要牌 (Hit)</button>
+                <button id="btn-stand" onclick="stand()" disabled>停牌 (Stand)</button>
+            </div>
+        </div>
+
+        <script>
+            let socket = null;
+
+            function connectSocket() {
+                if (socket && socket.readyState === WebSocket.OPEN) return socket;
+                var protocol = (window.location.protocol === "https:") ? "wss:" : "ws:";
+                socket = new WebSocket(protocol + "//" + window.location.host + "/game/blackjack/ws");
+                socket.onopen = function() {
+                    console.log("WebSocket 已連線");
+                };
+                socket.onmessage = function(event) {
+                    var data;
+                    try {
+                        data = JSON.parse(event.data);
+                    } catch (e) {
+                        console.warn("無法解析伺服器回傳:", event.data, e);
+                        return;
+                    }
+                    console.log("收到資料:", data);
+                    if (data && data.status === "success") {
+                        setGameButtons(true);
+                    }
+                    if (data && (data.gameOver !== undefined || data.bust !== undefined)) {
+                        setGameButtons(false);
+                    }
+                };
+                socket.onclose = function() {
+                    console.log("連線關閉，1.5 秒後自動重連…");
+                    socket = null;
+                    setGameButtons(false);
+                    setTimeout(connectSocket, 1500);
+                };
+                socket.onerror = function() {
+                    console.warn("WebSocket 錯誤");
+                };
+                return socket;
+            }
+
+            function setGameButtons(enabled) {
+                document.getElementById("btn-hit").disabled = !enabled;
+                document.getElementById("btn-stand").disabled = !enabled;
+            }
+
+            function startGame() {
+                var s = connectSocket();
+                if (s && s.readyState === WebSocket.OPEN) {
+                    s.send(JSON.stringify({action: "join", player_id: "player1"}));
+                    setGameButtons(true);
+                } else {
+                    s.addEventListener("open", function() {
+                        s.send(JSON.stringify({action: "join", player_id: "player1"}));
+                        setGameButtons(true);
+                    });
+                }
+            }
+
+            function hit() {
+                if (socket && socket.readyState === WebSocket.OPEN) {
+                    socket.send(JSON.stringify({action: "hit", player_id: "player1"}));
+                }
+            }
+
+            function stand() {
+                if (socket && socket.readyState === WebSocket.OPEN) {
+                    socket.send(JSON.stringify({action: "stand", player_id: "player1"}));
+                }
+            }
+
+            connectSocket();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}首頁{% endblock %}
+
+{% block css %}index.css{% endblock %}
+
+{% block content %}
+<div class="games-container">
+    <div class="game-box" onclick="window.location.href='/game/blackjack'">
+        <img src="/static/img/blackjack.jpg" alt="21點遊戲圖示" class="game-img">
+        <h3>21點</h3>
+        <p>經典的撲克牌遊戲，目標是讓手中的牌總和最接近21點而不超過。</p>
+    </div>
+
+    <!-- <div class="game-box">
+        <img src="/static/img/blackjack.jpg" alt="德州撲克" class="game-img">
+        <h3>德州撲克</h3>
+        <p>考驗心理戰與機率計算，與其他玩家一較高下的經典撲克競技。</p>
+    </div>
+
+    <div class="game-box">
+        <img src="/static/img/blackjack.jpg" alt="拉霸機" class="game-img">
+        <h3>幸運拉霸</h3>
+        <p>試試你的手氣！連線成功即可獲得高額獎金，簡單又刺激。</p>
+    </div> -->
+</div>
+{% endblock %}
