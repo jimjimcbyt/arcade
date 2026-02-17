@@ -34,11 +34,10 @@ jobs:
             git pull origin main
             ./venv/bin/python -m pip install -r requirements.txt
             
-            # 殺掉舊的，不管有沒有殺到都繼續
             pkill -f "python app.py" || true
             sleep 2
             
-            # 啟動並確保輸出有導向，最後加一個 exit 0 強制告訴 GitHub 沒事
             nohup ./venv/bin/python app.py > server.log 2>&1 &
-            sleep 1
+            
+            sleep 2
             exit 0
