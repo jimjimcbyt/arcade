@@ -19,25 +19,25 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install flake8
-          # E501: 行太長, W293: 空白行有空格, E302: 函數間隔少於兩行
           flake8 . --count --ignore=E501,W293,E302,E261,W291,W292,F401 --show-source --statistics
 
-      - name: SSH Deploy
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: 23
-          script: |
-            pkill -f "python app.py" || true
-            
+      - name: Deploy via Native SSH
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > private_key
+          chmod 600 private_key
+          
+          ssh -i private_key -p 23 -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
             cd /home/jim/arcade
             git pull origin main
             ./venv/bin/python -m pip install -r requirements.txt
             
-            nohup ./venv/bin/python app.py </dev/null >server.log 2>&1 &
+            pkill -f "python app.py" || true
+            sleep 2
             
+            nohup ./venv/bin/python app.py </dev/null >server.log 2>&1 &
             disown
             sleep 1
-            echo "Deploy Done"
+            exit 0
+          EOF
+          
+          rm -rf private_key
