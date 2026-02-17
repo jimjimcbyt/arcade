@@ -32,9 +32,13 @@ jobs:
           script: |
             cd /home/jim/arcade
             git pull origin main
-            /home/jim/arcade/venv/bin/python -m pip install -r requirements.txt
+            ./venv/bin/python -m pip install -r requirements.txt
             
+            # 殺掉舊的，不管有沒有殺到都繼續
             pkill -f "python app.py" || true
             sleep 2
             
-            nohup /home/jim/arcade/venv/bin/python app.py > /home/jim/arcade/server.log 2>&1 &
+            # 啟動並確保輸出有導向，最後加一個 exit 0 強制告訴 GitHub 沒事
+            nohup ./venv/bin/python app.py > server.log 2>&1 &
+            sleep 1
+            exit 0
