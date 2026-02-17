@@ -8,6 +8,7 @@ import dotenv
 import httpx
 from datetime import datetime
 import json
+from pymongo import MongoClient
 
 dotenv.load_dotenv()
 
@@ -18,9 +19,6 @@ app.register_blueprint(game_bp)
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 REDIRECT_URI = "https://arcade.1010819.xyz/auth"
-
-# MongoDB 連線（for log），失敗時不擋啟動
-from pymongo import MongoClient
 
 collection = None
 try:
